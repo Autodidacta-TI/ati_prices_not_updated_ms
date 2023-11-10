@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>  
+    <data>
+        <record id="view_report_purchase_order_prices_not_updated_wizard_form" model="ir.ui.view">
+            <field name="name">Reporte de Precios sin actualizar</field>
+            <field name="model">report.prices.not.updated.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Reporte de Precios sin actualizar">
+                    <group>
+                        <group>
+                            <field name="from_date" required="1"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <footer>                      
+                        <button name="print_report_prices_not_updated_excel" string="Descargar Excel" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record> 
+
+        <act_window id="action_open_report_prices_not_updated_wizard_form"
+                name="Reporte de Precios sin actualizar"
+                res_model="report.prices.not.updated.wizard"
+                view_mode="form"
+                target="new"/>
+
+        <menuitem name="Reporte Precios sin Actualizar"
+                id="menu_report_sale_prices_not_updated_custom"
+                parent="purchase.menu_purchase_root"
+                action="action_open_report_prices_not_updated_wizard_form" 
+                sequence="20"/>
+ 
+         
+    </data>
+</odoo>
