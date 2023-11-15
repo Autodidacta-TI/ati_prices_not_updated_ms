@@ -2,7 +2,7 @@
 
 {
     'name': 'Reporte Precios de Venta sin actualizar',
-    "version": "11.0",
+    "version": "15.0",
     'author': 'Fernando Morelli - Autodidacta TI',
     'category': 'Extra Tools',
     'license': 'OPL-1',
