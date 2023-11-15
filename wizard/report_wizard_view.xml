@@ -16,7 +16,7 @@
                     </group>
                     <footer>                      
                         <button name="print_report_prices_not_updated_excel" string="Descargar Excel" type="object" class="btn-primary"/>
-                        <button string="Cancel" class="btn-default" special="cancel"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/> 
                     </footer>
                 </form>
             </field>
