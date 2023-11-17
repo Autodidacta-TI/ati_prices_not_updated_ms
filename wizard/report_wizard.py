@@ -17,4 +17,3 @@ class POReportPricesWizard(models.TransientModel):
             'url': '/purchase/report_prices_not_updated/%s' % (self.id),
             'target': 'new',
         }
-

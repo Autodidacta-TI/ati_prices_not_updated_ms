@@ -16,7 +16,7 @@
                     </group>
                     <footer>                      
                         <button name="print_report_prices_not_updated_excel" string="Descargar Excel" type="object" class="btn-primary"/>
-                        <button string="Cancel" class="btn-default" special="cancel"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/> 
                     </footer>
                 </form>
             </field>
@@ -27,13 +27,12 @@
                 res_model="report.prices.not.updated.wizard"
                 view_mode="form"
                 target="new"/>
-
+                
         <menuitem name="Reporte Precios sin Actualizar"
                 id="menu_report_sale_prices_not_updated_custom"
                 parent="purchase.menu_purchase_root"
                 action="action_open_report_prices_not_updated_wizard_form" 
                 sequence="20"/>
  
-         
     </data>
 </odoo>

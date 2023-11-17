@@ -114,6 +114,3 @@ class POPricesController(http.Controller):
         output.close()
 
         return response
-
-
-
