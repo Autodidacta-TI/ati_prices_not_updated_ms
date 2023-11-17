@@ -1,3 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_ati_prices_not_updated_report_franquicia_ms,ati_prices_not_updated_report_franquicia_ms.ati_prices_not_updated_report_franquicia_ms,model_purchase_order_report_prices_not_updated_wizard,base.group_user,1,1,1,1
-

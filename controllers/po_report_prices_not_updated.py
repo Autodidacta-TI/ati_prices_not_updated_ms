@@ -11,7 +11,7 @@ import xlsxwriter.utility as xl_utility
 _logger = logging.getLogger(__name__)
 class POPricesController(http.Controller):
     @http.route([                                                   
-        '/purchase/report_prices_not_updated/<model("report.prices.not.updated.wizard"):wizard>',
+        '/purchase/po_report_prices_not_updated/<model("po.report.prices.not.updated.wizard"):wizard>',
     ], type='http', auth="user", csrf=False)
     def get_purchase_order_prices_excel_report(self,wizard=None,**args):
         from_date_datetime = datetime.strptime(wizard.from_date, "%Y-%m-%d")
@@ -114,6 +114,3 @@ class POPricesController(http.Controller):
         output.close()
 
         return response
-
-
-
