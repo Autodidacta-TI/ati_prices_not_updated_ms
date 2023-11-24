@@ -47,8 +47,7 @@ class POPricesController(http.Controller):
         _logger.warning('***products: {0}'.format(len(products)))
 
         fecha = datetime.strptime(wizard.from_date, "%Y-%m-%d")
-        # Restar 60 días
-        nueva_fecha = fecha - timedelta(days=60)
+        nueva_fecha = fecha #- timedelta(days=60)
         #nueva_fecha_string = nueva_fecha.strftime("%Y-%m-%d")  
         nueva_fecha_string = nueva_fecha.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -69,7 +68,7 @@ class POPricesController(http.Controller):
 
                 # Compara el precio de costo del producto con el precio de la purchase.order.line
                 if product.standard_price == last_purchase_order_line.price_unit:
-                    result_list.append(product)
+                    result_list.append({'product': product, 'price_unit': last_purchase_order_line.price_unit})
                     
 
         #_logger.warning('***result_list: {0}'.format(result_list))
@@ -97,15 +96,17 @@ class POPricesController(http.Controller):
         worksheet.set_column('A:A', 20)  # Ancho de la columna para el código del producto
         worksheet.set_column('B:B', 50)  # Ancho de la columna para el nombre del producto
         worksheet.set_column('C:C', 15)  # Ancho de la columna para el precio estándar
-        worksheet.set_column('D:D', 15)  # Ancho de la columna para la fecha de compra
+        worksheet.set_column('D:D', 25)  # Ancho de la columna para la fecha de compra
         
         # Escribir datos de result_list en el archivo Excel
         row = 2
-        for product in result_list:
+        for item in result_list:
+            product = item['product']
+            price_unit = item['price_unit']
             worksheet.write(row, 0, product.default_code)
             worksheet.write(row, 1, product.name)
             worksheet.write_number(row, 2, product.standard_price, currency_format)
-            worksheet.write_number(row, 3, product.list_price, currency_format)
+            worksheet.write_number(row, 3, price_unit, currency_format)
             row += 1
         ## Cierre del excel
         workbook.close()
