@@ -14,12 +14,15 @@ class POPricesController(http.Controller):
         '/purchase/report_prices_not_updated/<model("report.prices.not.updated.wizard"):wizard>',
     ], type='http', auth="user", csrf=False)
     def get_purchase_order_prices_excel_report(self,wizard=None,**args):
-        from_date_datetime = datetime.strptime(wizard.from_date, "%Y-%m-%d")
+        #_logger.warning('***************wizard.from_date: {0}'.format(wizard.from_date))
+        
+        from_date_datetime = wizard.from_date.strftime("%Y-%m-%d")
+        _logger.warning('***************from_date_datetime: {0}'.format(type(from_date_datetime)))
         response = request.make_response(
             None,
             headers=[
                 ('Content-Type', 'application/vnd.ms-excel'),
-                ('Content-Disposition', content_disposition('Reporte de Precios no actualizados al ' + from_date_datetime.strftime("%d-%m-%Y") + '.xlsx')) #.strftime("%d-%m-%Y")
+                ('Content-Disposition', content_disposition('Reporte de Precios no actualizados al ' + wizard.from_date.strftime("%d-%m-%Y") + '.xlsx')) #.strftime("%d-%m-%Y")
             ]
         )
 
@@ -46,10 +49,14 @@ class POPricesController(http.Controller):
         _logger.warning('***products: {0}'.format(products))
         _logger.warning('***products: {0}'.format(len(products)))
 
-        fecha = datetime.strptime(wizard.from_date, "%Y-%m-%d")
+        fecha = datetime.strptime(from_date_datetime, "%Y-%m-%d")
+        _logger.warning('***FECHA: {0}'.format(fecha))
+        # Restar 60 días
         nueva_fecha = fecha #- timedelta(days=60)
+        _logger.warning('***NUEVA FECHA: {0}'.format(nueva_fecha))
         #nueva_fecha_string = nueva_fecha.strftime("%Y-%m-%d")  
         nueva_fecha_string = nueva_fecha.strftime("%Y-%m-%d %H:%M:%S")
+        _logger.warning('***NUEVA FECHA STRING: {0}'.format(nueva_fecha))
 
         result_list = []
       
@@ -68,6 +75,7 @@ class POPricesController(http.Controller):
 
                 # Compara el precio de costo del producto con el precio de la purchase.order.line
                 if product.standard_price == last_purchase_order_line.price_unit:
+                    #result_list.append(product)
                     result_list.append({'product': product, 'price_unit': last_purchase_order_line.price_unit})
                     
 
@@ -81,10 +89,10 @@ class POPricesController(http.Controller):
         })
 
         worksheet = workbook.add_worksheet("Reporte")
-        worksheet.merge_range('A1:D1', 'Reporte Precios sin Actualizar al ' + from_date_datetime.strftime("%d-%m-%Y"), title_style) 
+        worksheet.merge_range('A1:D1', 'Reporte Precios sin Actualizar al ' + fecha.strftime("%d-%m-%Y"), title_style) 
         
         # Escribir encabezados y aplicar el estilo
-        headers = ['Código Producto', 'Nombre del Producto', 'Precio de Costo','Precio de Venta' ] 
+        headers = ['Código Producto', 'Nombre del Producto', 'Precio de Costo','Precio de Ultima Compra' ] 
        
         for col, header in enumerate(headers):
             worksheet.write(1, col, header, header_style)
@@ -115,3 +123,4 @@ class POPricesController(http.Controller):
         output.close()
 
         return response
+
