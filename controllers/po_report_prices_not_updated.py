@@ -83,7 +83,7 @@ class POPricesController(http.Controller):
         worksheet.merge_range('A1:D1', 'Reporte Precios sin Actualizar al ' + from_date_datetime.strftime("%d-%m-%Y"), title_style) 
         
         # Escribir encabezados y aplicar el estilo
-        headers = ['Código Producto', 'Nombre del Producto', 'Precio de Costo','Precio de Ultima Compra' ] 
+        headers = ['Código Producto', 'Nombre del Producto', 'Precio de Costo','Precio de Ultima Compra', 'Precio actual de venta','Stock disponible'] 
        
         for col, header in enumerate(headers):
             worksheet.write(1, col, header, header_style)
@@ -96,6 +96,8 @@ class POPricesController(http.Controller):
         worksheet.set_column('B:B', 50)  # Ancho de la columna para el nombre del producto
         worksheet.set_column('C:C', 15)  # Ancho de la columna para el precio estándar
         worksheet.set_column('D:D', 25)  # Ancho de la columna para la fecha de compra
+        worksheet.set_column('E:E', 25)  # Ancho de la columna para el precio actual
+        worksheet.set_column('F:F', 18)  # Ancho de la columna para el stock disponible
         
         # Escribir datos de result_list en el archivo Excel
         row = 2
@@ -106,6 +108,8 @@ class POPricesController(http.Controller):
             worksheet.write(row, 1, product.name)
             worksheet.write_number(row, 2, product.standard_price, currency_format)
             worksheet.write_number(row, 3, price_unit, currency_format)
+            worksheet.write_number(row, 4, product.list_price, currency_format)
+            worksheet.write_number(row, 5, product.qty_available)
             row += 1
         ## Cierre del excel
         workbook.close()
